@@ -2,7 +2,7 @@ lock '3.4.0'
 #require "bundler/capistrano"
 set :default_env, { 'RACK_ENV' => "production" }
 set :application, 'sudoku'
-set :repo_url, 'git@github.com:dborovsky/sudoku.git'
+set :repo_url, 'git@github.com:Xtrance/sudoku.git'
 
 set :deploy_to, '/home/deploy/sudoku'
 set :linked_files, %w{config/database.yml}
