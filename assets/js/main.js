@@ -97,3 +97,21 @@ require(['jQuery', 'game', 'view'], function($, Game, View) { 'use strict';
         });
     });
 });
+
+
+ $('.list').delegate('li', 'click', function(){
+    data = $(this).attr('data-value');
+    ajaxFormReiting(data);
+});
+
+
+ function ajaxFormReiting(data) {
+        $.ajax({
+            url: '/get-reiting',
+            type: 'post',
+            data:  {type: data},
+            success: function(data) {
+                $('#raiting').replaceWith(data);
+            }
+        });
+    }

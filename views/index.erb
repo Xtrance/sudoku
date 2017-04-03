@@ -1,10 +1,10 @@
-<%= erb :hbanner, :layout => false %>
+<%#= erb :hbanner, :layout => false %>
 
 <div class="headline">
   <div class="container">
     <div class="row clearfix">
       <div class="column full">
-        <h1>Sudoku kostenlos online spielen</h1>
+        <h1>Sudoku online kostenlos spielen</h1>
       </div>
     </div>
   </div>
@@ -12,12 +12,11 @@
 
 <div class="content marked">
 <div class="container">
-  <div class="row clearfix">
+  <div class="row clearfix">   
     <div class="column full">
       <div class="row clearfix">
         <div class="column full no-padding desktop">
-          <p class="text">Sudoku ist eines der beliebtesten Zahlenrätsel. Das Spiel wird regelmäßig in den Zeitungen und 
-Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die Online-Version des klassischen Sudoku-Spiels entwickelt. Sudoku-Rätsel lösen ist der beste Weg, sich zu konzentrieren und die Freizeit nützlich zu verbringen.</p>
+          <p class="text">Sudoku ist eines der beliebtesten Zahlenrätsel. Das Spiel wird regelmäßig in den Zeitungen und Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die Online-Version des klassischen Sudoku-Spiels entwickelt. Das Lösen von Sudoku-Rätseln ist der beste Weg, sich zu konzentrieren und die Freizeit nützlich zu verbringen.</p>
         </div>
       </div>
       <div class="row clearfix game-row">
@@ -26,13 +25,13 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
             <div class="controls">
               <div class="ctrl floated left">
                 <select class="generate">
-                  <option value="easy">Easy</option>
-                  <option value="medium">Medium</option>
-                  <option value="hard">Hard</option>
-                  <option value="expert">Expert</option>
-                  <option value="insane">Insane</option>
+                  <option value="easy">Sehr leicht</option>
+                  <option value="medium">Leicht</option>
+                  <option value="hard">Mittelschwer</option>
+                  <option value="expert">Schwer</option>
+                  <option value="insane">Sehr schwer</option>
                 </select>
-                <button class="btn new-game tngame">New Game</button>
+                <button class="btn new-game tngame">Neues Spiel</button>
                 <div class="timer">
                   <i class="icon timer"></i>
                   <span id="timer">00:00:00</span>
@@ -40,19 +39,21 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
               </div>
 
               <div class="ctrl floated right">
-                <button class="btn primary game" id="solve-btn">Solve</button>
-                <button class="btn primary game" id="clear-btn">Clear</button>
-                <button class="btn primary game" id="hint-btn">Hint</button>
-                <button class="btn primary game" id="check-btn">Check</button>
+                <button class="btn primary game" id="solve-btn">Lösen</button>
+                <button class="btn primary game" id="clear-btn">Löschen</button>
+                <button class="btn primary game" id="hint-btn">Hinweis</button>
+                <button class="btn primary game" id="check-btn">Prüfen</button>
                 <button class="btn primary game" id="pause-btn">Pause</button>
               </div>
 
             </div>
           </div>
           <div id="grid-wrapper"></div>
+          <!--
           <div class="text-center">
-            <button class="btn new-game bngame">New Game</button>
+            <button class="btn new-game bngame">Neues Spiel2</button>
           </div>
+          -->
         </div>
 
         <div class="column third flow-opposite no-pad-side right-overwrite">
@@ -60,24 +61,24 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
             <% if current_user %>
               <div class="item">
                 <i class="icon save"></i>
-                <a href="javascript:void(0)" data-remodal-target="modal-saves">Save/Load game</a>
+                <a href="javascript:void(0)" data-remodal-target="modal-saves">Speichern/Spiel laden</a>
               </div>
             <% else %>
               <div class="item">
                 <i class="icon save"></i>
-                <a href="javascript:void(0)" data-remodal-target="modal-please-auth">Save/Load game</a>
+                <a href="javascript:void(0)" data-remodal-target="modal-please-auth">Speichern/Spiel laden</a>
               </div>
             <% end %>
             <div class="item">
               <i class="icon print"></i>
-              <a href="javascript:void(0)" id="print-btn">Print</a>
+              <a href="javascript:void(0)" id="print-btn">Ausdrucken</a>
             </div>
             <div class="item">
               <br>
               <% if current_user.present? %>
-                Score: <strong><%= current_user.scores %></strong>
+                Punkte: <strong><%= current_user.scores %></strong>
               <% else %>
-                Score: <strong><%= guest_scores.scores %></strong>
+                Punkte: <strong><%= guest_scores.scores %></strong>
               <% end %>
             </div>
           </div>
@@ -85,21 +86,23 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
           <div class="best-players desktop">
             <div class="best-players-head">
               <i class="best-player-icon"></i>
-              <span>Best players</span>
+              <span>Beste Spieler</span>
             </div>
             <div class="best-players-body">
               <% @top_players.each_with_index do |player, index| %>
+                <%- if index < 10 %>
                 <div class="item">
                   <span class="number"><%= index+1 %></span>
                   <% if player.is_guest %>
-                    <span class="name">Guest #<%= player.name %></span>
+                    <span class="name">Gast #<%= player.name %></span>
                   <% else %>
                     <span class="name"><%= player.name %></span>
                   <% end %>
                 </div>
+                <% end %>
               <% end %>
               <div class="text aligned center">
-                  <a href="/rangliste">All players</a>
+                  <a href="/rangliste">Alle Spieler</a>
               </div>
             </div>
           </div>
@@ -121,30 +124,30 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
   <div class="row clearfix">
     <div class="column full rangliste">
       <br><br>
-      <h2>Rangliste der Spieler</h2>
+      <h2>Rangliste der Spieler - <%= convert_month(Time.now.strftime("%b %Y"))  %></h2>
 
       <table class="table" cellspacing="0">
         <thead>
           <th class="col-id text aligned right">#</th>
-          <th class="col-username text aligned left">Username</th>
-          <th class="col-easy text aligned right desktop">Easy</th>
+          <th class="col-username text aligned left">Name</th>
+          <th class="col-easy text aligned right desktop">Sehr leicht</th>
           <th class="col-medium text aligned right">
-            <div class="desktop">Medium</div>
+            <div class="desktop">Leicht</div>
             <div class="mobile">
               <select class="level">
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-                <option value="expert">Expert</option>
-                <option value="insane">Insane</option>
+                <option value="easy">Sehr leicht</option>
+                <option value="medium">Leicht</option>
+                <option value="hard">Mittelschwer</option>
+                <option value="expert">Schwer</option>
+                <option value="insane">Sehr schwer</option>
               </select>
             </div>
           </th>
-          <th class="col-hard text aligned right desktop">Hard</th>
-          <th class="col-expert text aligned right desktop">Expert</th>
-          <th class="col-insane text aligned right desktop">Insane</th>
-          <th class="col-score text aligned right">Score</th>
-          <th class="col-last text aligned right">Last Played</th>
+          <th class="col-hard text aligned right desktop">Mittelschwer</th>
+          <th class="col-expert text aligned right desktop">Schwer</th>
+          <th class="col-insane text aligned right desktop">Sehr schwer</th>
+          <th class="col-score text aligned right">Punkte</th>
+          <th class="col-last text aligned right">Letztes Spiel</th>
         </thead>
 
         <tbody>
@@ -152,7 +155,7 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
           <tr>
             <td class="text aligned right"><%= index+1 %></td>
             <% if player.is_guest %>
-            <td class="text medium">Guest #<%= player.name %></td>
+            <td class="text medium">Gast #<%= player.name %></td>
             <% else %>
             <td class="text medium"><%= player.name %></td>
             <% end %>
@@ -161,25 +164,47 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
             <td class="text aligned right desktop"><%= player.game_counter.hard %></td>
             <td class="text aligned right desktop"><%= player.game_counter.expert %></td>
             <td class="text aligned right desktop"><%= player.game_counter.insane %></td>
-            <td class="text medium aligned right"><%= player.scores %></td>
-            <td class="text col-last aligned right"><%= player.game_counter.updated_at.strftime("%b %d, %Y") %></td>
+            <td class="text medium aligned right col-score"><%= player.scores %></td>
+            <td class="text col-last aligned right"><%= convert_month(player.game_counter.updated_at.strftime("%b %d, %Y")) %></td>
           </tr>
           <% end %>
         </tbody>
       </table>
 
       <div class="text aligned center">
-        <a href="/rangliste">Vollständige Rangliste anzeigen</a>
+        <a href="/rangliste">Ganze Rangliste anzeigen</a>
       </div>
+      
+      
       <br><br><br>
     </div>
   </div>
 </div>
 
+  <div class="container">
+    <div class="row clearfix">
+      <div class="column full">
+          <p class="text" style="margin-top: 0px;">Um an der Rangliste teilzunehmen, müssen Sie <b>sich anmelden</b>. Nach der Anmeldung werden Sie für jede Sudoku-Lösung Punkte bekommen. Je mehr Punkte Sie bekommen, desto höher werden Sie an der Rangliste sein. Melden Sie sich für das Spiel an, wählen Sie den gewünschten Schwierigkeitsgrad und laden Sie Ihre Freunde ein, mit denen Sie wetteifern können!</p>
+          <p>Die Punkte werden für jede erfolgreiche Lösung angerechnet. Die Punktzahl hängt vom Schwierigkeitsgrad ab:</p>
+          <p>— Sehr leicht — 1 Punkt;<br>
+             — Leicht — 2 Punkte;<br>
+             — Mittelschwer — 4 Punkte;<br>
+             — Schwer — 8 Punkte;<br>
+             — Sehr schwer — 16.<br>
+         </p>
+          <p>Jedesmal, wenn Sie Hinweis benutzen, wird die Punktzahl um 10% vermindert. 10 Hinweise und Ihr Gewinn wird zu Null.</p>
+          <p>Sie bekommen eine Null auch wenn Sie Sudoku nicht selbständig lösen sondern auf "Lösen" klicken.</p>
+
+      </div>
+    </div>
+  </div>
+  
+  
 <div class="content marked">
   <div class="container">
     <div class="row clearfix">
       <div class="column full">
+        <!--
         <img class="image floated" src="img/img-index.png" alt="Sudoku">
         <p>Um der Rangliste hinzufügen zu können, müssen Sie sich anmelden. Nach der Anmeldung werden Sie für jede Sudoku-Lösung Punkte bekommen. Je mehr Punkte Sie bekommen, desto höher werden Sie an der Rangliste sein. Melden Sie sich für das Spiel an, wählen Sie die gewünschte Schwierigkeitsstufe und laden Sie Ihre Freunde ein, mit denen Sie wetteifern können!</p>
 
@@ -190,6 +215,23 @@ Zeitschriften auf der ganzen Welt veröffentlicht. Extra für Sie haben wir die 
         <p>Um zu beginnen, wählen Sie die Schwierigkeitsstufe: sehr leicht, leicht, mittelschwer, schwer und sehr schwer. Je höher die Schwierigkeitsstufe ist, desto weniger Zellen werden am Anfang des Spiels mit den Ziffern (von 1 bis 9) gefüllt. Keine Sorge, man kann ein Profi werden, auch wenn man mit einer leichten Stufe beginnt. Je nach der Schwierigkeitsstufe und Übung brauchen Sie von 5 bis 30 Minuten, um ein Sudoku zu lösen. Wir empfehlen Ihnen, sich mit den grundlegenden Lösungstechniken des Sudoku vertraut zu machen.</p>
 
         <p>Neue Ziffern einzugeben und die früher eingegebenen Ziffern zu korrigieren darf man nur in leeren Sudoku-Feldern, die von Anfang an nicht gefüllt waren. Um eine Ziffer zu löschen, wählen Sie die Zelle und drücken Sie die Taste „Löschen“ oder geben Sie ersatzweise eine neue Ziffer ein. Rote Ziffern bedeuten, dass die Spielfelder regelwidrig gefüllt sind. Prüfen Sie das Ganze aufmerksam durch, finden Sie die Fehler und korrigieren Sie sie.</p>
+        -->
+        <h1>Spielregeln</h1>
+        <p>Um ein <a href="https://sudoku-spielen.org/">Sudoku zu lösen</a>, müssen Sie die leeren Zellen des Spielfeldes mit Ziffern von 1 bis 9 so ausfüllen, dass jede Ziffer in jeder Zeile, Spalte und in jedem 3х3-Block genau einmal vorkommt. Um Sudoku zu spielen, brauchen Sie keine speziellen mathematischen oder rechnerischen Fertigkeiten zu haben.</p>
+        <img class="image floated" src="img/index/image13.jpg" alt="Spielregeln">
+        <p>Um zu beginnen, wählen Sie den Schwierigkeitsgrad: sehr leicht, leicht, mittelschwer, schwer und sehr schwer. Je höher der Schwierigkeitsgrad ist, desto weniger Zellen werden am Anfang des Spiels mit den Ziffern (von 1 bis 9) gefüllt. Keine Sorge, man kann ein Profi werden, auch wenn man mit einem leichten Grad beginnt. Je nach dem Schwierigkeitsgrad und Übung brauchen Sie von 5 bis 30 Minuten, um ein Sudoku zu lösen. Wir empfehlen Ihnen, sich mit den grundlegenden <a href="/sudoku-lösung">Lösungstechniken</a> des Sudoku vertraut zu machen.</p>
+        
+        <p>Neue Ziffern eingeben und die früher eingegebenen Ziffern korrigieren darf man nur in leeren Sudoku-Feldern, die von Anfang an nicht gefüllt waren. Um eine Ziffer zu löschen, wählen Sie die Zelle und klicken Sie auf „Löschen“ oder geben Sie ersatzweise eine neue Ziffer ein. Rote Ziffern bedeuten, dass die Spielfelder regelwidrig gefüllt sind. Um sich an die <a href="regeln">Spielregeln</a> zu halten, prüfen Sie das Ganze aufmerksam durch, finden Sie die Fehler und korrigieren Sie sie.</p>
+        <p>Wenn Sie es beim Spiel schwierig haben, benutzen Sie einen Hinweis. Um das aktuelle Spiel automatisch zu lösen, klicken Sie auf “Lösen”. Man kann das aktuelle Spiel <b>speichern</b> und es jederzeit <b>weiterspielen.</b></p>
+        
+        <p>Wollen Sie auf Papier spielen? Sie können Sudoku ausdrucken:</p>
+        <p>
+          1. Schwierigkeitsgrad wählen</br>
+          2. Auf “Ausdrucken” klicken</br>
+          <b>3. Sudoku spielen!</b></br>
+        </p>
+
+        <p>Spielen Sie auf Ihrem Handy? Wir haben es möglich gemacht, Sudoku auf Ihrem Handy oder Tablet zu spielen. Mobile Version ist mit allen iOS-, Android- und Windows Mobile-Geräten kompatibel.</p>
       </div>
     </div>
   </div>

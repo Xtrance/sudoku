@@ -1,2 +1,3 @@
-User-agent: *
-Disallow: /
+User-Agent: *
+Disallow: https://sudoku-spielen.org/datenschutzerklaerung
+Sitemap: https://sudoku-spielen.org/sitemap.xml

@@ -60,12 +60,53 @@ set :static_cache_control, [:public, {:no_store => 1}]
 #     env["rack.errors"] =  error_logger
 #   }  
 
+before '/*' do
+  @top_players_ten = User.all.order('scores desc').limit(10)
+  
+  @meta = Hash.new('/kontakte' => '', '/' => '', '/regeln' => '', '/rangliste' => '', '/sudoku-l%C3%B6sung' => '',)
+  @meta['/kontakte'] = {'title' => 'Kontakt - Sudoku-Spielen.org', 'description' => 'Kontakt'}
+  @meta['/'] =  {'title' => 'Sudoku online kostenlos spielen |  Sudoku-Spielen.org', 'description' => 'Sudoku online kostenlos spielen ohne Anmeldung. Mehr als 100,000 Rätsel. 5 Schwierigkeitsgrade. Sudoku für Handy. Sudoku ausdrucken.'}
+  @meta['/regeln'] = {'title' => 'Sudoku Spielregeln', 'description' => 'Spielregeln für Sudoku online und auf Papier. Einfach, punktweise, mit Abbildungen und Erklärungen. Erlernen Sie die Grundlagen und spielen Sudoku online!'}
+  @meta['/rangliste'] = {'title' => 'Rangliste von Sudoku Spielern', 'description' => 'Rangliste von besten Sudoku Spielern! Melden Sie sich an. Lösen Sie Puzzles von verschiedenem Schwierigkeitsgrad. Bekommen Sie Punkte. Gewinnen Sie! Jetzt auf PC oder Handy spielen.'}
+  @meta['/sudoku-l%C3%B6sung'] = {'title' => 'Wie löst man Sudoku: Mittel, Methoden und Strategien', 'description' => 'Mittel, Methoden und Strategien für Sudoku Lösungen, für Anfänger und Fortgeschrittene. Wie spielt man and löst schwere Sudoku Rätsel.'}
+  @meta['/datenschutzerklaerung'] = {'title' => 'Datenschutzerklärung (Disclaimer)', 'description' => 'Datenschutzerklärung (Disclaimer)'}
+  @meta['/sudoku-geschichte'] = {'title' => 'Sudokugeschichte', 'description' => 'Wir bieten Sie an, dieses Spiel näher kennenzulernen und durch alle Phasen von Entwicklung ihrer Popularität zu gehen.'}
+end
+
 
 LEVELS_TABLE = {
   '35': 'easy', '40': 'medium',
   '45': 'hard', '50': 'expert',
   '55': 'insane'
 }
+
+def convert_month(date)
+  if !date.match('Jan').nil?
+    return date.sub(%r{Jan}, 'Jan')
+  elsif !date.match('Feb').nil?
+     return date.sub(%r{Feb}, 'Feb')
+  elsif !date.match('Mar').nil?
+     return date.sub(%r{Mar}, 'März')
+  elsif !date.match('Apr').nil?
+     return date.sub(%r{Apr}, 'Apr')
+  elsif !date.match('May').nil?
+     return date.sub(%r{May}, 'Mai')
+  elsif !date.match('June').nil?
+     return date.sub(%r{June}, 'Juni')
+  elsif !date.match('July').nil?
+     return date.sub(%r{July}, 'Juli')
+  elsif !date.match('Aug').nil?
+     return date.sub(%r{Aug}, 'Aug')
+  elsif !date.match('Sept').nil?
+     return date.sub(%r{Sept}, 'Sept')
+  elsif !date.match('Oct').nil?
+     return date.sub(%r{Oct}, 'Okt')
+  elsif !date.match('Nov').nil?
+     return date.sub(%r{Nov}, 'Nov')
+  elsif !date.match('Dec').nil?
+     return date.sub(%r{Dec}, 'Dez')
+  end
+end
 
 
 helpers do
@@ -95,7 +136,8 @@ end
 
 
 get '/' do
-  @top_players = User.all.order('scores desc').limit(10)
+  #@top_players = User.all.order('scores desc').limit(10)
+  @top_players = User.where('created_at >= ? and created_at <= ?', Time.now.beginning_of_month, Time.now.end_of_month).order('scores desc').limit(10)
   @stashed_games = current_user ? current_user.stashes : []
   if !current_user
     CHARS = ('0'..'9').to_a
@@ -122,12 +164,14 @@ end
 
 
 get '/kontakte' do
+  #@top_players = User.all.order('scores desc').limit(25)
   erb :contacts, :layout => :default
 end
 
 
 get '/rangliste' do
-  @top_players = User.all.order('scores desc').limit(25)
+  #@top_players = User.all.order('scores desc').limit(25)
+  @top_players = User.where('created_at >= ? and created_at <= ?', Time.now.beginning_of_month, Time.now.end_of_month).order('scores desc').limit(25)
   erb :raiting, :layout => :default
 end
 
@@ -141,16 +185,26 @@ get '/losungstechniken' do
   erb :howto, :layout => :default
 end
 
+get '/sudoku-lösung' do
+  erb :how_game, :layout => :default
+end
 
-get '/geschichte' do
+get '/sudoku-geschichte' do
   erb :history, :layout => :default
 end
 
 
-get '/datenschutzerklarung' do
+get '/datenschutzerklaerung' do
   erb :policy, :layout => :default
 end
 
+get '/sitemap.xml' do
+  File.read("sitemap.xml")
+end
+
+get '/robots.txt' do
+  send_file 'robots.txt'
+end
 
 get '/indexold' do
   @top_players = User.all.order('scores desc')
@@ -159,6 +213,16 @@ get '/indexold' do
     @stashed_game = Stash.find(params[:stashed_game])
   end
   erb :indexold
+end
+
+post '/get-reiting' do
+  if params[:type] == '1'
+    @top_players = User.where('created_at >= ? and created_at <= ?', Time.now.beginning_of_month, Time.now.end_of_month).order('scores desc').limit(25)
+    erb :get_raiting
+  else
+    @top_players = User.all.order('scores desc').limit(25)
+    erb :get_raiting
+  end
 end
 
 
@@ -202,7 +266,7 @@ post '/restore' do
     Pony.mail({
       :to => params[:email],
       :from => 'xtrance1991@gmail.com',
-      :subject => 'Restored password: Sudoku',
+      :subject => 'Passwort-Wiederherstellung: Sudoku-spielen.org',
       :body => new_password,
       :via => :sendmail,
       :via_options => {
@@ -360,7 +424,7 @@ post '/game/stash' do
     params[:right_solution] = params[:right_solution].values.map { |array| array.map(&:to_i) }
     stash = user.stashes.create(params)
     content_type :json
-    { id: stash.id, created_at: stash.created_at.strftime("%b %d, %H:%M"), scores: stash.scores, time: stash.time }.to_json
+    { id: stash.id, created_at: convert_month(stash.created_at.strftime("%b %d, %H:%M")), scores: stash.scores, time: stash.time }.to_json
   else
     halt 401
   end

@@ -76,31 +76,40 @@ define('validator', ['system', 'timer', 'levels', 'scores_counter'], function(Sy
 
             $('.res-time').text(time.join(':'));
             $('.res-score').text(resultScores);
-
-            window.remodals.remodalCorrect.open();
+            
+            if(resultScores > 0) {
+                window.remodals.remodalCorrect.open();
+            } else {
+                window.remodals.remodalCorrectWithoutScores.open();
+            }
 
             window.restime = $('.res-time').text();
 
             switch (window.level) {
                 case 35:
-                    window.level = 'Easy';
+                    window.level = 'Sehr leicht';
                     break;
                 case 40:
-                    window.level = 'Medium';
+                    window.level = 'Leicht';
                     break;
                 case 45:
-                    window.level = 'Hard';
+                    window.level = 'Mittelschwer';
                     break;
                 case 50:
-                    window.level = 'Expert';
+                    window.level = 'Schwer';
                     break;
                 case 55:
-                    window.level = 'insane';
+                    window.level = 'Sehr schwer';
                     break;
                 default:
-                    window.level = 'Expert';
+                    window.level = 'Sehr leicht';
                     break;
             }
+            $( ".modal-social-icons" ).empty();
+            $( ".modal-social-icons" ).append( "<a href='https://www.facebook.com/sharer/sharer.php?u=https://sudoku-spielen.org&amp;display=popup&amp;title=Sudoku spielen&amp;description=Ich spiele Sudoku. Mein Ergebnis ist: " + time.join(':') + ". Schwierigkeitsgrad: " + window.level  + ". Kannst Du es besser machen? Versuche es mal: https://sudoku-spielen.org/' id='shareLinkFb'  title='Auf Facebook teilen' target='_blank'><img src='/img/icon-facebook.png' alt='Auf Facebook teilen'></a>" );
+            $( ".modal-social-icons" ).append( "<a href='https://plus.google.com/share?url=https://sudoku-spielen.org' id='shareLinkGp' title='Auf Google+ teilen' target='_blank'><img src='/img/icon-google.png' alt='Auf Google+ teilen'></a>" );
+            $( ".modal-social-icons" ).append( "<a href='https://twitter.com/intent/tweet?url=https://sudoku-spielen.org&amp;text=Ich spiele Sudoku. Mein Ergebnis ist: " + time.join(':') + ". Schwierigkeitsgrad: " + window.level + ". Kannst Du es besser machen?' id='shareLinkTw' title='Auf Twitter teilen' target='_blank'><img src='/img/icon-twitter.png' alt='Auf Twitter teilen'></a>" );
+           
             window.socialinit();
 
 

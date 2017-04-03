@@ -2,11 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Sudoku spielen</title>
+  <title><%= @meta[request.path_info.to_s]['title'] %></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="keywords" content="">
-  <meta name="description" content="">
+  <meta name="description" content="<%= @meta[request.path_info.to_s]['description'] %>">
   <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->
   
   <!-- Social -->
@@ -47,8 +46,16 @@
   <% end %>
 </head>
 <body>
-
-
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-92422736-1', 'auto');
+    ga('send', 'pageview');
+</script>
+  
   <header class="header">
     <div class="container">
       <div class="row clearfix">
@@ -58,15 +65,14 @@
         </div>
         <div class="column half desktop">
           <div class="header-social desktop">
-            <a href="http://facebook.com/" target="_blank"><img src="/img/icon-facebook.png" alt="Facebook"></a>
-            <a href="http://plus.google.com/" target="_blank"><img src="/img/icon-google.png" alt="Google"></a>
-            <a href="http://twitter.com/" target="_blank"><img src="/img/icon-twitter.png" alt="Twitter"></a>
+            <a href="https://www.facebook.com/sudokuspielenorg/" title="Wir auf Facebook" target="_blank"><img src="/img/icon-facebook.png" alt="Wir auf Facebook"></a>
+            <a href="https://plus.google.com/u/1/105564766529877610125" title="Wir auf Google+" target="_blank"><img src="/img/icon-google.png" alt="Wir auf Google+"></a>
+            <a href="https://twitter.com/sudoku_spielen" title="Wir auf Twitter" target="_blank"><img src="/img/icon-twitter.png" alt="Wir auf Twitter"></a>
           </div>
         </div>
       </div>
     </div>
   </header>
-
 
   <nav class="nav top">
     <div class="container">
@@ -74,11 +80,11 @@
         <div class="column full clearfix no-padding mobile">
 
           <div class="left-side desktop nav-items">
-            <a href="/" class="nav-item">Sudoku Spielen</a>
-            <a href="#" class="nav-item">Vorschriften</a>
+            <a href="/" class="nav-item">Sudoku spielen</a>
             <a href="/regeln" class="nav-item">Regeln</a>
-            <a href="#" class="nav-item">Strategie</a>
-            <a href="/geschichte" class="nav-item">Geschichte Sudoku</a>
+            <a href="/rangliste" class="nav-item">Rangliste</a>
+            <a href="/sudoku-lösung" class="nav-item">Sudoku-Lösung</a>
+            <a href="/sudoku-geschichte" class="nav-item">Sudoku Geschichte</a>
           </div>
 
           <div class="right-side">
@@ -90,7 +96,7 @@
             <% else %>
               <a href="javascript:void(0)" class="nav-auth">
                 <i class="icon-auth"></i>
-                <span>Authorization</span>
+                <span>Autorisierung</span>
               </a>
             <% end %>
 
@@ -101,11 +107,11 @@
                 <span>Best players</span>
               </div>
               <div class="best-players-body">
-                <% @top_players.each_with_index do |player, index| %>
+                <%-@top_players_ten.each_with_index do |player, index| %>
                 <div class="item">
                   <span class="number"><%= index+1 %></span>
                   <% if player.is_guest %>
-                  <span class="name">Guest #<%= player.name %></span>
+                  <span class="name">Gast #<%= player.name %></span>
                   <% else %>
                   <span class="name"><%= player.name %></span>
                   <% end %>
@@ -122,7 +128,7 @@
                 <% if current_user.present? %>
                   <form action="/sign_out" method="post">
                     <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn primary">Sign out</button>
+                    <button type="submit" class="btn primary">Abmelden</button>
                   </form>
                 <% end %>
               </div>
@@ -132,31 +138,31 @@
                                    <% end %>">
                 <form action="/sign_in" method="POST" >
                   <input type="text" placeholder="E-mail" name="email" required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                  <input type="password" placeholder="Password" name="password" required="">
+                  <input type="password" placeholder="Passwort" name="password" required="">
                   
                   <div class="toogle-block">
-                    <a href="javascript:void(0)" class="toggle-link tr-open" data-block-name="block-lost-password">Lost password?</a>
+                    <a href="javascript:void(0)" class="toggle-link tr-open" data-block-name="block-lost-password">Passwort vergessen?</a>
                   </div>
                   <div data-block-name="block-lost-password" class="hidden">
                       <input type="text" placeholder="E-mail" id="c-resend-email">
-                      <a href="javascript:void(0)" class="btn" id="send-password-btn">Send password</a>
+                      <a href="javascript:void(0)" class="btn" id="send-password-btn">Passwort senden</a>
                   </div>
 
-                  <button type="submit" class="btn" id="sign-in-btn">Sign in</button>
+                  <button type="submit" class="btn" id="sign-in-btn">Anmelden</button>
                 </form>
 
                 <div class="toogle-block">
-                  <a href="javascript:void(0)" class="toggle-link tr-open" data-block-name="block-registration">Registration</a>
+                  <a href="javascript:void(0)" class="toggle-link tr-open" data-block-name="block-registration">Registrierung</a>
                 </div>
                 <div data-block-name="block-registration" class="hidden">
                   <form action="/sign_up" method="POST">
-                    <div class="form-error" id="error-register-email">Email already taken</div>
+                    <div class="form-error" id="error-register-email">Email bereits verwendet</div>
                     <input type="text" placeholder="E-mail" name="email" required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="c-register-email">
-                    <div class="form-error" id="error-register-name">Username already taken</div>
-                    <input type="text" placeholder="Username" name="name" required="" id="c-register-name">
-                    <input type="password" placeholder="Password" id="c-password" name="password" required="">
-                    <input type="password" placeholder="Confirm password" id="c-confirm_password" required="">
-                    <button type="submit" class="btn" id="signup-btn">Sign up</button>
+                    <div class="form-error" id="error-register-name">Login bereits verwendet</div>
+                    <input type="text" placeholder="Login" name="name" required="" id="c-register-name">
+                    <input type="password" placeholder="Passwort" id="c-password" name="password" required="">
+                    <input type="password" placeholder="Passwort bestätigen" id="c-confirm_password" required="">
+                    <button type="submit" class="btn" id="signup-btn">Registrieren</button>
                   </form>
 
                   <script>
@@ -165,7 +171,7 @@
 
                     function validatePassword(){
                       if(password.value != confirm_password.value) {
-                        confirm_password.setCustomValidity("Passwords Don't Match");
+                        confirm_password.setCustomValidity("Passwörter nicht übereinstimmen");
                       } else {
                         confirm_password.setCustomValidity('');
                       }
@@ -194,13 +200,17 @@
     <div class="container">
       <div class="row clearfix">
         <div class="column full clearfix no-padding mobile">
-
+        
           <div class="left-side desktop">
+            <a href="/kontakte" class="nav-item">Kontakte</a>
+            <a href="/datenschutzerklaerung" class="nav-item">Datenschutzerklärung (Disclaimer)</a>
+            <!--
             <a href="/" class="nav-item">Sudoku Spielen</a>
             <a href="#" class="nav-item">Vorschriften</a>
             <a href="/regeln" class="nav-item">Regeln</a>
             <a href="#" class="nav-item">Strategie</a>
             <a href="/geschichte" class="nav-item">Geschichte Sudoku</a>
+            -->
           </div>
 
         </div>
@@ -213,13 +223,13 @@
     <div class="container">
       <div class="row clearfix">
         <div class="column half">
-          <span class="footer-copyright">Sudoku-Spielen &copy; 2016</span>
+          <span class="footer-copyright">Sudoku-Spielen.org &copy; 2017</span>
         </div>
         <div class="column half">
           <div class="footer-social">
-            <a href="http://facebook.com/" target="_blank"><img src="/img/icon-facebook.png" alt="Facebook"></a>
-            <a href="http://plus.google.com/" target="_blank"><img src="/img/icon-google.png" alt="Google"></a>
-            <a href="http://twitter.com/" target="_blank"><img src="/img/icon-twitter.png" alt="Twitter"></a>
+            <a href="https://www.facebook.com/sudokuspielenorg/" title="Wir auf Facebook" target="_blank"><img src="/img/icon-facebook.png" alt="Wir auf Facebook"></a>
+            <a href="https://plus.google.com/u/1/105564766529877610125" title="Wir auf Google+" target="_blank"><img src="/img/icon-google.png" alt="Wir auf Google+"></a>
+            <a href="https://twitter.com/sudoku_spielen" title="Wir auf Twitter" target="_blank"><img src="/img/icon-twitter.png" alt="Wir auf Twitter"></a>
           </div>
         </div>
       </div>
@@ -229,25 +239,25 @@
 
   <div class="remodal" data-remodal-id="modal-send" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>Your message have sent!</h1>
+    <h1>Ihre Nachricht wurde erfolgreich verschickt</h1>
     <div class="text aligned center">
       <img src="img/icon-correct.png" alt=":(">
     </div>
     <br>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 
   <div class="remodal" data-remodal-id="modal-restore" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>New password has been sent <br>to your Email!</h1>
+    <h1>Neues Passwort wurde auf <br>Ihr Email geschickt!</h1>
     <div class="text aligned center">
       <img src="img/icon-correct.png" alt=":(">
     </div>
     <br>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 
@@ -265,67 +275,83 @@
 
   <div class="remodal" data-remodal-id="modal-validate" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>This fields cannot be blank. Please, check again</h1>
+    <h1>Diese Felder können nicht leer sein. Bitte überprüfe es nocheinmal</h1>
     <div class="text aligned center">
       <img src="img/icon-wrong.png" alt=":(">
     </div>
     <br>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 
   <div class="remodal" data-remodal-id="modal-please-auth" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>Please, sign-in or register for using this feature</h1>
+    <h1>Bitte, anmelden oder registrieren, um diese Funktion zu benutzen</h1>
     <div class="text aligned center">
       <img src="img/icon-correct.png" alt=":)">
     </div>
     <br>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 
   <div class="remodal" data-remodal-id="modal-solution-wrong" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>Your solution is wrong!</h1>
+    <h1>Ihre Lösung ist nicht richtig!</h1>
     <div class="text aligned center">
       <img src="img/icon-wrong.png" alt=":(">
     </div>
     <br>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 
   <div class="remodal" data-remodal-id="modal-solution-correct" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>Congratulations!</h1>
-    <p>Your solution is correct. But your scores is zero, sorry.</p>
+    <h1>Glückwunsch!</h1>
+    <p>Ihre Lösung ist richtig.</p>
     <div class="text aligned center">
       <img src="img/icon-correct.png" alt=":)">
     </div>
     <div class="text aligned center">
-      <div class="modal-results">Time: <span class="res-time"></span></div>
-      <div class="modal-results">Score: <span class="res-score"></span></div>
+      <div class="modal-results">Zeit: <span class="res-time"></span></div>
+      <div class="modal-results">Punkte: <span class="res-score"></span></div>
     </div>
     <div class="text aligned center modal-social">
-      <p>Your solution is correct</p>
-      <div class="modal-social-icons">
-        <a href="" id="shareLinkFb" target="_blank"><img src="/img/icon-facebook.png" alt="Facebook"></a>
-        <a href="" id="shareLinkGp" target="_blank"><img src="/img/icon-google.png" alt="Google"></a>
-        <a href="" id="shareLinkTw" target="_blank"><img src="/img/icon-twitter.png" alt="Twitter"></a>
-      </div>
+      <p>Ergebnisse teilen</p>
+      <div class="modal-social-icons"></div>
     </div>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
+    </div>
+  </div>
+  
+   <div class="remodal" data-remodal-id="modal-solution-correct-without-scores" data-remodal-options="hashTracking: false">
+    <button data-remodal-action="close" class="remodal-close"></button>
+    <h1>Glückwunsch!</h1>
+    <p>Ihre Lösung ist richtig. Aber Ihre Gesamtpunktzahl ist Null. Entschuldigung.</p>
+    <div class="text aligned center">
+      <img src="img/icon-correct.png" alt=":)">
+    </div>
+    <div class="text aligned center">
+      <div class="modal-results">Zeit: <span class="res-time"></span></div>
+      <div class="modal-results">Punkte: <span class="res-score"></span></div>
+    </div>
+    <div class="text aligned center modal-social">
+      <p>Ergebnisse teilen</p>
+      <div class="modal-social-icons"></div>
+    </div>
+    <div class="text aligned center">
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 
   <div class="remodal" data-remodal-id="modal-saves" data-remodal-options="hashTracking: false">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>Saves</h1>
+    <h1>Gespeicherte Spiele</h1>
     <% if current_user %>
     <table class="saves">
       <% if @stashed_games %>
@@ -333,10 +359,10 @@
       <tr class="saves-item stassh">
         <td class="saves-item-mark marked"></td>
         <td class="saves-item-date"><%= game.created_at.strftime("%b %d, %H:%M") %></td>
-        <td class="saves-item-score desktop">Scores: <%= game.scores %></td>
-        <td class="saves-item-time desktop">Time: <span class="t_time"><%= game.time %></span></td>
+        <td class="saves-item-score desktop">Punkte: <%= game.scores %></td>
+        <td class="saves-item-time desktop">Zeit: <span class="t_time"><%= game.time %></span></td>
         <td class="saves-item-ctrls">
-          <a href="/?stashed_game=<%= game.id %>" class="load-save">Load game</a>
+          <a href="/?stashed_game=<%= game.id %>" class="load-save">Spiel laden</a>
           <a href="#" class="delete-save" data-stash-id="<%= game.id %>"></a>
         </td>
       </tr>
@@ -344,15 +370,15 @@
       <% end %>
       <tr class="saves-item emmpty">
         <td class="saves-item-mark"></td>
-        <td class="saves-item-date empty">Empty</td>
+        <td class="saves-item-date empty">Leer</td>
         <td class="saves-item-score desktop"></td>
         <td class="saves-item-time desktop"></td>
-        <td class="saves-item-ctrls"><button class="btn primary" id="stash-btn">Save</button></td>
+        <td class="saves-item-ctrls"><button class="btn primary" id="stash-btn">Speichern</button></td>
       </tr>
     </table>
     <% end %>
     <div class="text aligned center">
-      <a href="javascript:void(0)" data-remodal-action="close">Close window</a>
+      <a href="javascript:void(0)" data-remodal-action="close">Fenster schließen</a>
     </div>
   </div>
 

@@ -56,6 +56,7 @@
     ///////////////////
     r.remodalWrong = $('[data-remodal-id="modal-solution-wrong"]').remodal();
     r.remodalCorrect = $('[data-remodal-id="modal-solution-correct"]').remodal();
+    r.remodalCorrectWithoutScores = $('[data-remodal-id="modal-solution-correct-without-scores"]').remodal();
     r.remodalSaves = $('[data-remodal-id="modal-saves"]').remodal();
     r.remodalSend = $('[data-remodal-id="modal-send"]').remodal();
     r.remodalRestore = $('[data-remodal-id="modal-restore"]').remodal();

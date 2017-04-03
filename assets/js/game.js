@@ -204,10 +204,10 @@ function ($, Grid, System, Validator, Solver, Levels, Timer, ScoresCounter) { 'u
                 var tr = '<tr class="saves-item stassh">' +
                             '<td class="saves-item-mark marked"></td>' +
                             '<td class="saves-item-date">' + data.created_at + '</td>' +
-                            '<td class="saves-item-score desktop">Scores: ' + data.scores + '</td>' +
-                            '<td class="saves-item-time desktop">Time: <span class="t_time">' + data.time + '</span></td>' +
+                            '<td class="saves-item-score desktop">Punkte: ' + data.scores + '</td>' +
+                            '<td class="saves-item-time desktop">Zeit: <span class="t_time">' + data.time + '</span></td>' +
                             '<td class="saves-item-ctrls">' +
-                              '<a href="/?stashed_game=' + data.id + '" class="load-save">Load game</a>' +
+                              '<a href="/?stashed_game=' + data.id + '" class="load-save">Spiel laden</a>' +
                               '<a href="#" class="delete-save" data-stash-id="' + data.id + '"></a>' +
                             '</td>' +
                           '</tr>';

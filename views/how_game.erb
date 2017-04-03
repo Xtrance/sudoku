@@ -1,0 +1,94 @@
+<%= erb :hbanner, :layout => false %>
+
+<div class="headline">
+  <div class="container">
+    <div class="row clearfix">
+      <div class="column full">
+        <h1>Wie löst man Sudoku?</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content marked">
+  <div class="container">
+    <div class="row clearfix">
+      <div class="column">
+        <div class="content-regeln">
+          
+          <p>Sudoku ist eines der berühmtesten und populärsten Zahlenrätsel in der ganzen Welt. Dieses Spiel entwickelt Gedächtnis, Aufmerksamkeit, logisches Denken und eine Reihe von weiteren nützlichen Eigenschaften.</p>
+          <p>Wenn Sie diese Art von Puzzles noch nicht kennen, dann fangen Sie mit den <a href="/regeln">Spielregeln</a> an. Glauben Sie uns, sie sind sehr einfach.</p>
+          <h2>Methoden für Sudoku Lösung</h2>
+          <p>Auf dieser Seite finden Sie einige Techniken für Sudoku Lösung. Es wird sowohl für Anfänger als auch für Profis nützlich sein. Schließlich machen einige Leute ihre ersten Schritte in der Kunst des Sudoku, und die anderen brauchen, die Effektivität ihrer Entscheidungen zu erhöhen! Eine detaillierte Beschreibung der Strategien und Methoden zur Lösung von Sudoku finden Sie auf der <a href="http://de.wikipedia.org/wiki/Sudoku">Wikipedia</a>-Seite.</p>
+          <p>Um das Rätsel zu lösen (egal ob es einfach oder komplex ist), sucht man zuerst die offensichtlichen Varianten, Zellen zu füllen. Hier gibt es ein paar Techniken dafür.</p>
+          <h3>Methode des nackten Einers</h3>
+          <p>Unten auf dem Bild versuchen wir, einen Platz für die Acht finden. Laut der grundlegenden Regel von Sudoku finden wir entsprechende Bedingungen:</p>
+          <ul>
+            <li>Zelle G:1 streicht die Zeile 1 aus.</li>
+            <li>Zelle E:2 streicht die Zeile 2 aus.</li>
+            <li>Zelle A:9 entfernt Spalte A.</li>
+          </ul>
+          <p>Diese drei Bedingungen sind genug, damit wir verstehen, dass nur die Zelle B:3 für die Acht geeignet ist. Das bedeutet wir haben die einzig mögliche Ziffer für das Quadrat gefunden. Füllen wir diese Zelle mit Acht aus.</p>
+          <img class="image image-center" align="center" src="img/how_game/image1.jpg" alt="Methode für Sudoku Lösung: Methode des nackten Einers">
+          <h3>Methode des nackten Einers in der Zeile oder Spalte</h3>
+          <p>Der Schwerpunkt dieser Methode ist, eine eindeutige Ziffer für die Zelle zu finden. Der wesentliche Unterschied von der vorangehenden Methode besteht darin, dass wir nicht Ausschlussverfahren (von Zeilen und Spalten) sondern Verbot auf eine bestimmte Spalte einsetzen.</p>
+          
+          <p>In diesem Beispiel betrachten wir Spalte А. Sie hat nur 5 Zellen. Es bestehen hier einige nützliche Bedingungen:</p>
+          <ul>
+            <li>Zelle C:1 enthält eine Vier. So ist es nicht möglich, die Vier in A:3 zu benutzen.</li>
+            <li>Zelle B:4 macht es auch nicht möglich, die Vier in Zellen A:4, A:5, A:6 zu benutzen.</li>
+          </ul>
+          <p>Es gibt nur eine “freie” Zelle A:7, die wir mit Vier ausfüllen.</p>
+          <img class="image image-center" align="center" src="img/how_game/image2.jpg" alt="Methode für Sudoku Lösung: Methode des nackten Einers in der Zeile oder Spalte">
+          <h3> Methode des versteckten Einers</h3>
+          <p>Diese Methode nennt man “Methode des versteckten Einers”, weil es mehrere Bedingungen vorhanden sind, aber eine Bedingung fehlt.</p>
+          <p>Im letzten Quadrat haben wir zwei freie Zellen. Wir sind  schon bereit, zwei letzte Ziffer auszufüllen, aber es ist nicht so leicht. Diese Zellen haben je 2 potentielle Varianten mit Zwei und Acht.</p>
+          <p>Versuchen wir, diese Situation zur Methode des nackten Einers zu machen.</p>
+          <ul>
+            <li>Zelle E:2 streicht Spalte E aus.</li>
+            <li>Zelle A:9 streicht Zeile 9 aus.</li>
+          </ul>
+          <p>Als Ergebnis haben wir, das im achten Block (mittel unten) soll die Acht in der Zelle D:8 oder F:8 sein. Und das bedeutet, dass dieser Block die achte Zeile ganz ausschließt.</p>
+          <p>Es reicht für uns. Wir können jetzt “unsichere” Acht mit Sicherheit in die Zelle H:7 vergeben.</p>
+          <img class="image image-center" align="center" src="img/how_game/image3.jpg" alt="Methode für Sudoku Lösung: Methode des versteckten Einers">
+          <h3>Video Anleitung für Sudoku Lösung</h3>
+          <iframe width="560" height="315" style="margin: 10px auto; display: block;" src="https://www.youtube.com/embed/-nrKzPXx4Qo" frameborder="0" allowfullscreen></iframe>
+          
+          <h2>Sudoku Ratschläge</h2>
+          <ul>
+            <li>Zuerst finden Sie Zellen, die einen eindeutigen Wert haben.</li>
+            <li>Fangen Sie mit 3х3-Block an, dann gehen Sie zu Zeilen und Spalten.</li>
+            <li>Prüfen Sie es zweimal, bevor Sie eine Ziffer in die Zelle einschreiben.</li>
+          </ul>
+          <b>Entspannen Sie sich</b>
+          <ul><li>Spielen Sie Sudoku langsam, weil es ein entspannendes Spiel ist.</li></ul>
+          <b>Bücher sind die Quelle der Weisheit</b>
+          <ul><li>Bücher sind eine gute Möglichkeit, Ihre Sudoku-Fähigkeiten zu üben. Es gibt sehr viele Bücher mit Sudokurätseln. Einige davon haben sogar Schritt-für-Schritt Anleitungen.</li></ul>
+          <b>Erfolg ist in der Praxis</b>
+          <ul><li>Je mehr Praxis, desto schneller werden Sie Sudokurätsel lösen.</li></ul>
+          <b>Logik über Alles</b>
+          <ul><li>Füllen Sie Zahlen zufällig nicht aus. Sudoku Lösungen werden mit Hilfe von Logik gelöst.</li></ul>
+          <ul><li>Benutzen Sie Hinweise. Doch denken Sie für sich selbst, sonst gibt’s keinen Sinn, wenn das Computer alles für Sie machen wird.</li></ul>
+          <b>Erhöhen Sie den Schwierigkeitsgrad langsam</b>
+          <ul><li>Versuchen Sie mittelschweren und schweren Grad nur wenn Sie auf leichten Grad sicher spielen.</li></ul>
+          <b>Wenn Sie steckengeblieben sind</b>
+          <ul><li>Wenn Sie ernst steckengeblieben sind, machen Sie eine Pause für ein Paar Stunden. Schlafen Sie, machen Sie etwas Anderes, spielen Sie etwas anderes.</li></ul>
+          <b>Ein wichtiger Hinweis beim Sudoku Spiel auf Papier</b>
+          <ul><li>Beim Lösen von Sudoku auf Papier, schreiben Sie alle möglichen Ziffern in der linken oberen Ecke der Zelle und streichen dann alle nicht möglichen Varianten aus dieser Zelle aus. Danach können Sie die Ziffern sehen, die diese bestimmte Zelle besetzen können.</li></ul>
+          
+          
+          
+          
+          
+        </div>
+      </div>
+      <!--
+      <div class="column fourth desktop">
+        <a href="#" class="banner vertical">
+          <img src="img/banner-vertical.png" alt="">
+        </a>
+      </div>
+      -->
+    </div>
+  </div>
+</div>
