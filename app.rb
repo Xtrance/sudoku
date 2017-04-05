@@ -199,7 +199,7 @@ get '/datenschutzerklaerung' do
 end
 
 get '/sitemap.xml' do
-  File.read("sitemap.xml")
+  send_file "sitemap.xml"
 end
 
 get '/robots.txt' do

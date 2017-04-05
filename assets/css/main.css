@@ -442,7 +442,7 @@ a {
   #pause-btn {
     top: 0px;
     max-width: 150px;
-    left: 124px; }
+    left: 140px; }
   .tngame {
     display: none;
   }
@@ -871,6 +871,7 @@ div.timer {
     div.timer {
       /*position: relative;*/
       right: 0px;
+      font-size: 14px;
       float: right; } }
 
 .game-row {
