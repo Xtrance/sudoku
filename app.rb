@@ -61,9 +61,9 @@ set :static_cache_control, [:public, {:no_store => 1}]
 #   }  
 
 before '/*' do
-  @top_players_ten = User.all.order('scores desc').limit(10)
+  @top_players_banner = User.all.order('scores desc').limit(25)
   
-  @meta = Hash.new('/kontakte' => '', '/' => '', '/regeln' => '', '/rangliste' => '', '/sudoku-l%C3%B6sung' => '',)
+    @meta = Hash.new('/kontakte' => '', '/' => '', '/regeln' => '', '/rangliste' => '', '/sudoku-l%C3%B6sung' => '', '/datenschutzerklaerung' => '', '/sudoku-geschichte' => '')
   @meta['/kontakte'] = {'title' => 'Kontakt - Sudoku-Spielen.org', 'description' => 'Kontakt'}
   @meta['/'] =  {'title' => 'Sudoku online kostenlos spielen |  Sudoku-Spielen.org', 'description' => 'Sudoku online kostenlos spielen ohne Anmeldung. Mehr als 100,000 Rätsel. 5 Schwierigkeitsgrade. Sudoku für Handy. Sudoku ausdrucken.'}
   @meta['/regeln'] = {'title' => 'Sudoku Spielregeln', 'description' => 'Spielregeln für Sudoku online und auf Papier. Einfach, punktweise, mit Abbildungen und Erklärungen. Erlernen Sie die Grundlagen und spielen Sudoku online!'}
@@ -137,7 +137,7 @@ end
 
 get '/' do
   #@top_players = User.all.order('scores desc').limit(10)
-  @top_players = User.where('created_at >= ? and created_at <= ?', Time.now.beginning_of_month, Time.now.end_of_month).order('scores desc').limit(10)
+  @top_players = User.where('updated_at >= ? and updated_at <= ?', Time.now.beginning_of_month, Time.now.end_of_month).order('scores desc').limit(10)
   @stashed_games = current_user ? current_user.stashes : []
   if !current_user
     CHARS = ('0'..'9').to_a

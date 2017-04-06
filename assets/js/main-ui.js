@@ -23,10 +23,13 @@
     window.restime = "";
 
     window.socialinit = function() {
-      var urlFb = 'https://www.facebook.com/sharer/sharer.php?u=https://sudoku-spielen.org&display=popup&title=Sudoku spielen&description=Я решил судоку за ' + window.restime + ' на ' + window.level + ' уровне сложности.';
-      var urlTw = 'https://twitter.com/intent/tweet?url=https://sudoku-spielen.org&text=Я решил судоку за ' + window.restime + ' на ' + window.level + ' уровне сложности.';
+      //var urlFb = 'https://www.facebook.com/sharer/sharer.php?u=https://sudoku-spielen.org&display=popup&title=Sudoku spielen&description=Я решил судоку за ' + window.restime + ' на ' + window.level + ' уровне сложности.';
+      //var urlTw = 'https://twitter.com/intent/tweet?url=https://sudoku-spielen.org&text=Я решил судоку за ' + window.restime + ' на ' + window.level + ' уровне сложности.';
+      //var urlGp = 'https://plus.google.com/share?url=https://sudoku-spielen.org'      
+      var urlFb = 'https://www.facebook.com/sharer/sharer.php?u=https://sudoku-spielen.org&display=popup&title=Sudoku spielen&description=Ich spiele Sudoku. Mein Ergebnis ist: ' + $('.res-time').html() + '. Schwierigkeitsgrad: ' + window.level  + '. Kannst Du es besser machen? Versuche es mal: https://sudoku-spielen.org/';
+      var urlTw = 'https://twitter.com/intent/tweet?url=https://sudoku-spielen.org&amp;text=Ich spiele Sudoku. Mein Ergebnis ist: ' + $('.res-time').html() + '. Schwierigkeitsgrad: ' + window.level + '. Kannst Du es besser machen?';
       var urlGp = 'https://plus.google.com/share?url=https://sudoku-spielen.org'
-
+      
       $('#shareLinkFb').attr('href', urlFb);
       $('#shareLinkTw').attr('href', urlTw);
       $('#shareLinkGp').attr('href', urlGp);
